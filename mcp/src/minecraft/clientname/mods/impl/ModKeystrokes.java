@@ -3,8 +3,6 @@ package clientname.mods.impl;
 import java.awt.Color;
 
 import org.lwjgl.opengl.GL11;
-
-import clientname.gui.GuiPickYourSimp;
 import clientname.gui.hud.ScreenPosition;
 import clientname.mods.ModDraggable;
 import net.minecraft.client.Minecraft;
@@ -124,15 +122,13 @@ public class ModKeystrokes extends ModDraggable {
 		for(Key key : mode.getKeys()) {
 			
 			int textWidth = font.getStringWidth(key.getName());
-			
-			Color c = new Color(GuiPickYourSimp.getPerson().primaryColorJ.getRed(), GuiPickYourSimp.getPerson().primaryColorJ.getGreen(), GuiPickYourSimp.getPerson().primaryColorJ.getBlue(), 102);
-			
+
 			Gui.drawRect(
 					pos.getAbsoluteX() + key.getX(), 
 					pos.getAbsoluteY() + key.getY(), 
 					pos.getAbsoluteX() + key.getX() + key.getWidth(), 
 					pos.getAbsoluteY() + key.getY() + key.getHeight(), 
-					key.isDown() ? new Color(255, 255, 255, 102).getRGB() : c.getRGB()
+					key.isDown() ? new Color(255, 255, 255, 102).getRGB() : new Color(0, 0, 0, 102).getRGB()
 					);
 			
 			

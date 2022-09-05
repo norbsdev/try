@@ -1,22 +1,24 @@
-package clientname.mods.impl;
+package graphite.mods.impl;
 
 import java.awt.Color;
 
 import org.lwjgl.opengl.GL11;
-import clientname.gui.hud.ScreenPosition;
-import clientname.mods.ModDraggable;
+
+import graphite.gui.hud.ScreenPosition;
+import graphite.mods.ModDraggable;
+import graphite.util.Chroma;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.settings.KeyBinding;
 
 public class ModKeystrokes extends ModDraggable {
-
+	
 	public static enum KeystrokesMode {
 		
 		WASD(Key.W, Key.A, Key.S, Key.D),
 		WASD_MOUSE(Key.W, Key.A, Key.S, Key.D, Key.LMB, Key.RMB),
-		WASD_SPRINT(Key.W, Key.A, Key.S, Key.D, new Key("Sprint", Minecraft.getMinecraft().gameSettings.keyBindSprint, 1, 41, 58, 18)),
-		WASD_SPRINT_MOUSE(Key.W, Key.A, Key.S, Key.D, Key.LMB, Key.RMB, new Key("Sprint", Minecraft.getMinecraft().gameSettings.keyBindSprint, 1, 61, 58, 18))
+		WASD_SPACE(Key.W, Key.A, Key.S, Key.D, new Key("――――――", Minecraft.getMinecraft().gameSettings.keyBindJump, 1, 41, 58, 18)),
+		WASD_SPACE_MOUSE(Key.W, Key.A, Key.S, Key.D, Key.LMB, Key.RMB, new Key("――――――", Minecraft.getMinecraft().gameSettings.keyBindJump, 1, 61, 58, 18))
 		;
 		
 		private final Key[] keys;
@@ -97,13 +99,13 @@ public class ModKeystrokes extends ModDraggable {
 		}
 		
 	}
-
-	private KeystrokesMode mode = KeystrokesMode.WASD_SPRINT_MOUSE;
+	
+	private KeystrokesMode mode = KeystrokesMode.WASD_SPACE_MOUSE;
 	
 	public void setMode(KeystrokesMode mode) {
 		this.mode = mode;
 	}
-	
+
 	@Override
 	public int getWidth() {
 		return mode.getWidth();
@@ -122,23 +124,20 @@ public class ModKeystrokes extends ModDraggable {
 		for(Key key : mode.getKeys()) {
 			
 			int textWidth = font.getStringWidth(key.getName());
-
+			
 			Gui.drawRect(
-					pos.getAbsoluteX() + key.getX(), 
-					pos.getAbsoluteY() + key.getY(), 
-					pos.getAbsoluteX() + key.getX() + key.getWidth(), 
-					pos.getAbsoluteY() + key.getY() + key.getHeight(), 
+					pos.getAbsoluteX() + key.getX(),
+					pos.getAbsoluteY() + key.getY(),
+					pos.getAbsoluteX() + key.getX() + key.getWidth(),
+					pos.getAbsoluteY() + key.getY() + key.getHeight(),
 					key.isDown() ? new Color(255, 255, 255, 102).getRGB() : new Color(0, 0, 0, 102).getRGB()
 					);
 			
-			
-			font.drawString(
-					key.getName(), 
-					pos.getAbsoluteX() + key.getX() + key.getWidth() / 2 - textWidth / 2, 
-					pos.getAbsoluteY() + key.getY() + key.getHeight() / 2 - 4, 
-					key.isDown() ? Color.BLACK.getRGB() : Color.WHITE.getRGB()
-					);
-			
+			Render.drawChromaString(
+					key.getName(),
+					pos.getAbsoluteX() + key.getX() + key.getWidth() / 2 - textWidth / 2,
+					pos.getAbsoluteY() + key.getY() + key.getHeight() / 2 - 4,
+					false);
 		}
 		
 		GL11.glPopMatrix();
